@@ -1,0 +1,31 @@
+{
+  "name": "hexlet_project_2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RD1878/hexlet_project_2.git"
+  },
+  "author": "Pavel Khokhlov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RD1878/hexlet_project_2/issues"
+  },
+  "homepage": "https://github.com/RD1878/hexlet_project_2#readme",
+  "type": "module",
+  "bin": {
+    "gendiff": "bin/gendiff.js"
+  },
+  "devDependencies": {
+    "eslint": "^7.2.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.21.2"
+  },
+  "dependencies": {
+    "commander": "^5.1.0"
+  }
+}

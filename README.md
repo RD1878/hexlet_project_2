@@ -14,3 +14,6 @@ $ make install
 ```
 $ npm link
 ```
+## Run "GenDiff"
+
+[![asciicast](https://asciinema.org/a/II22w5oJC7dg3u78nNCYDS2ts.svg)](https://asciinema.org/a/II22w5oJC7dg3u78nNCYDS2ts)

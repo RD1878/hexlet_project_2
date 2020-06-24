@@ -14,6 +14,10 @@ $ make install
 ```
 $ npm link
 ```
-## Run "GenDiff"
+## Run "GenDiff" with '.json'
 
 [![asciicast](https://asciinema.org/a/II22w5oJC7dg3u78nNCYDS2ts.svg)](https://asciinema.org/a/II22w5oJC7dg3u78nNCYDS2ts)
+
+## Run "GenDiff" with '.yaml'
+
+[![asciicast](https://asciinema.org/a/D0SdQjwm7TUItuCxULVRq0oK5.svg)](https://asciinema.org/a/D0SdQjwm7TUItuCxULVRq0oK5)

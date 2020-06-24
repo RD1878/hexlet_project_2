@@ -16,6 +16,10 @@
   "bugs": {
     "url": "https://github.com/RD1878/hexlet_project_2/issues"
   },
+  "jest": {
+    "testEnvironment": "node",
+    "transform": {}
+  },
   "homepage": "https://github.com/RD1878/hexlet_project_2#readme",
   "files": [
     "dist"

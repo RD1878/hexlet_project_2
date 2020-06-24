@@ -28,4 +28,5 @@ export default (pathToFile1, pathToFile2) => {
   });
   result += '\n}';
   console.log(result);
+  return result;
 };

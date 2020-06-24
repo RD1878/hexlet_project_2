@@ -2,10 +2,19 @@ import fs from 'fs';
 import path from 'path';
 import process from 'process';
 import _ from 'lodash';
+import { parserJson, parserYaml } from './parsers.js';
 
 export default (pathToFile1, pathToFile2) => {
-  const firstFile = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), pathToFile1), 'utf8'));
-  const secondFile = JSON.parse(fs.readFileSync((path.resolve(process.cwd(), pathToFile2)), 'utf8'));
+  let firstFile;
+  let secondFile;
+  if (path.extname(pathToFile1) === '.json' && path.extname(pathToFile2) === '.json') {
+    firstFile = parserJson(fs.readFileSync(path.resolve(process.cwd(), pathToFile1), 'utf8'));
+    secondFile = parserJson(fs.readFileSync((path.resolve(process.cwd(), pathToFile2)), 'utf8'));
+  }
+  if (path.extname(pathToFile1) === '.yml' && path.extname(pathToFile2) === '.yml') {
+    firstFile = parserYaml(fs.readFileSync(path.resolve(process.cwd(), pathToFile1), 'utf8'));
+    secondFile = parserYaml(fs.readFileSync((path.resolve(process.cwd(), pathToFile2)), 'utf8'));
+  }
   const firstFileKeys = Object.keys(firstFile);
   const secondFileKeys = Object.keys(secondFile);
   const uniqKeys = _.uniq([...firstFileKeys, ...secondFileKeys]);

@@ -24,4 +24,4 @@ $ npm link
 
 ## Run "GenDiff" with '.ini'
 
-[![asciicast](https://asciinema.org/a/f8svSMDFWFeSifnNub2pyEMaw.svg)](https://asciinema.org/a/f8svSMDFWFeSifnNub2pyEMaw)
+[![asciicast](https://asciinema.org/a/oKQkXKgoaMYRWKKA2AKe6zHyB.svg)](https://asciinema.org/a/oKQkXKgoaMYRWKKA2AKe6zHyB)

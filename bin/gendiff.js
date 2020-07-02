@@ -7,7 +7,7 @@ const program = commander;
 program
   .version('1.0.0')
   .description('Compares two configuration files and shows a difference.')
-  .option('-f, --format [type]', 'output format')
+  .option('-f, --format [type]', 'output format', 'stylish')
   .parse(process.argv);
 
 const args = process.argv;

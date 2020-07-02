@@ -1,34 +1,70 @@
 import _ from 'lodash';
 import parser from './parsers.js';
 
-const difference = (pathToFile1, pathToFile2) => {
-  const firstFile = parser(pathToFile1);
-  const secondFile = parser(pathToFile2);
-  const firstFileKeys = Object.keys(parser(pathToFile1));
-  const secondFileKeys = Object.keys(parser(pathToFile2));
+const func = (firstObject, secondObject) => {
+  const firstFileKeys = Object.keys(firstObject);
+  const secondFileKeys = Object.keys(secondObject);
   const uniqKeys = _.uniq([...firstFileKeys, ...secondFileKeys]);
-  let result = '{';
-  uniqKeys.forEach((key) => {
-    if (!(_.isObject(firstFile[key]))) {
-      if (_.has(firstFile, key) && _.has(secondFile, key)) {
-        if (firstFile[key] === secondFile[key]) {
-          result += `\n    ${key}: ${firstFile[key]}`;
-        } else {
-          result += `\n  - ${key}: ${firstFile[key]}`;
-          result += `\n  + ${key}: ${secondFile[key]}`;
+  const result = [];
+  uniqKeys.map((key) => {
+    if (_.has(firstObject, key) && _.has(secondObject, key)) {
+      if (firstObject[key] === secondObject[key]) {
+        result.push({ [`  ${key}`]: firstObject[key] });
+      } else {
+        if (_.isObject(firstObject[key]) && _.isObject(secondObject[key])) {
+          const newValue = func(firstObject[key], secondObject[key]);
+          result.push({ [`  ${key}`]: newValue });
+        }
+        if (!_.isObject(firstObject[key]) || !_.isObject(secondObject[key])) {
+          result.push({ [`- ${key}`]: firstObject[key] });
+          result.push({ [`+ ${key}`]: secondObject[key] });
         }
       }
-      if (_.has(firstFile, key) && !_.has(secondFile, key)) {
-        result += `\n  - ${key}: ${firstFile[key]}`;
-      }
-      if (!_.has(firstFile, key) && _.has(secondFile, key)) {
-        result += `\n  + ${key}: ${secondFile[key]}`;
-      }
+    }
+    if (_.has(firstObject, key) && !_.has(secondObject, key)) {
+      result.push({ [`- ${key}`]: firstObject[key] });
+    }
+    if (!_.has(firstObject, key) && _.has(secondObject, key)) {
+      result.push({ [`+ ${key}`]: secondObject[key] });
     }
   });
-  result += '\n}';
-  console.log(result);
   return result;
 };
 
-export default difference;
+const foo = (tree) => {
+ console.log(tree);
+};
+
+const getDifference = (pathToFile1, pathToFile2) => {
+  const firstFile = parser(pathToFile1);
+  const secondFile = parser(pathToFile2);
+  const result = func(firstFile, secondFile);
+  /* console.log(result[1]['  group1'][3]['- nest'][0]['key']); */
+  const diff = foo(result);
+  console.log(diff);
+  return diff;
+};
+
+export default getDifference;
+
+/* uniqKeys.forEach((key) => {
+    if (_.has(firstObject, key) && _.has(secondObject, key)) {
+      if (firstObject[key] === secondObject[key]) {
+        result += `${key}: ${firstObject[key]}`;
+      } else {
+        if (_.isObject(firstObject[key]) && _.isObject(secondObject[key])) {
+          result += `\n    ${key}: {\n  ${func(firstObject[key], secondObject[key])}\n}`;
+        }
+        if (!_.isObject(firstObject[key]) || !_.isObject(secondObject[key])) {
+          result += `\n  - ${key}: ${JSON.stringify(firstObject[key])}`;
+          result += `\n  + ${key}: ${JSON.stringify(secondObject[key])}`;
+        }
+      }
+    }
+    if (_.has(firstObject, key) && !_.has(secondObject, key)) {
+      result += `\n- ${key}: ${JSON.stringify(firstObject[key])}`;
+    }
+    if (!_.has(firstObject, key) && _.has(secondObject, key)) {
+      result += `\n+ ${key}: ${JSON.stringify(secondObject[key])}`;
+    }
+  }); */

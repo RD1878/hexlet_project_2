@@ -12,26 +12,26 @@ const getStructure = (firstObject, secondObject) => {
         result.push({
           key,
           value: firstObject[key],
-          type: ' ',
+          type: '  ',
         });
       } else {
         if (_.isObject(firstObject[key]) && _.isObject(secondObject[key])) {
           result.push({
             key,
             value: getStructure(firstObject[key], secondObject[key]),
-            type: ' ',
+            type: '  ',
           });
         }
         if (!_.isObject(firstObject[key]) || !_.isObject(secondObject[key])) {
           result.push({
             key,
             value: firstObject[key],
-            type: '-',
+            type: '- ',
           });
           result.push({
             key,
             value: secondObject[key],
-            type: '+',
+            type: '+ ',
           });
         }
       }
@@ -40,41 +40,42 @@ const getStructure = (firstObject, secondObject) => {
       result.push({
         key,
         value: firstObject[key],
-        type: '-',
+        type: '- ',
       });
     }
     if (!_.has(firstObject, key) && _.has(secondObject, key)) {
       result.push({
         key,
         value: secondObject[key],
-        type: '+',
+        type: '+ ',
       });
     }
   });
   return result;
 };
-let resultString = '';
 
 const res = (obj) => {
   let result = '';
   const entries = Object.entries(obj);
   entries.forEach(([key, value]) => {
-    result += `${key}: ${value}`;
+    result += `    ${key}: ${value}`;
   });
   return result;
 };
 
-const difference = (tree) => {
-  /* console.log(tree[0].value[4]); */
+const difference = (tree, n) => {
+  let resultString = '';
+  const spaceString = (n) => '  '.repeat(n);
+   /*let n = 1; */
   tree.forEach((item) => {
     if (Array.isArray(item.value)) {
-      resultString += `\n  ${item.type} ${item.key}: {${difference(item.value)}\n    }`;
-    }
-    if (!Array.isArray(item.value)) {
+      resultString += `\n${spaceString(n)}${item.type}${item.key}: {${difference(item.value, n + 2)}\n${spaceString(n + 1)}}`;
+    } else {
       if (_.isObject(item.value)) {
-        resultString += `\n      ${item.type} ${item.key}: {\n            ${(res(item.value))}\n        }`;
-      } else {
-        resultString += `\n      ${item.type} ${item.key}: ${item.value}`;
+        resultString += `\n${spaceString(n)}${item.type}${item.key}: {\n${spaceString(n + 1)}${(res(item.value))}\n${spaceString(n + 1)}}`;
+      }
+      if (!Array.isArray(item.value) && !_.isObject(item.value)) {
+        resultString += `\n${spaceString(n)}${item.type}${item.key}: ${item.value}`;
       }
     }
   });
@@ -84,10 +85,12 @@ const difference = (tree) => {
 const getDifference = (pathToFile1, pathToFile2) => {
   const firstFile = parser(pathToFile1);
   const secondFile = parser(pathToFile2);
-  const result = getStructure(firstFile, secondFile);
-  const diff = difference(result);
-  console.log(diff);
-  return diff;
+  const structure = getStructure(firstFile, secondFile);
+  const beginSpaceCount = 1;
+  const diff = difference(structure, beginSpaceCount);
+  const result = `{${diff}\n}`;
+  console.log(result);
+  return result;
 };
 
 export default getDifference;

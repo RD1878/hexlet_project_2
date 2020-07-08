@@ -16,12 +16,24 @@ $ npm link
 ```
 ## Run "GenDiff" with '.json'
 
+### Var.N1
 [![asciicast](https://asciinema.org/a/II22w5oJC7dg3u78nNCYDS2ts.svg)](https://asciinema.org/a/II22w5oJC7dg3u78nNCYDS2ts)
+
+### Var.N2
+[![asciicast](https://asciinema.org/a/i0lGfhSIEsrdToWjQKEaURbaz.svg)](https://asciinema.org/a/i0lGfhSIEsrdToWjQKEaURbaz)
 
 ## Run "GenDiff" with '.yaml'
 
+### Var.N1
 [![asciicast](https://asciinema.org/a/D0SdQjwm7TUItuCxULVRq0oK5.svg)](https://asciinema.org/a/D0SdQjwm7TUItuCxULVRq0oK5)
+
+### Var.N2
+[![asciicast](https://asciinema.org/a/Afw4EIZvZZv2fLN6ysrEGWeF2.svg)](https://asciinema.org/a/Afw4EIZvZZv2fLN6ysrEGWeF2)
 
 ## Run "GenDiff" with '.ini'
 
+### Var.N1
 [![asciicast](https://asciinema.org/a/oKQkXKgoaMYRWKKA2AKe6zHyB.svg)](https://asciinema.org/a/oKQkXKgoaMYRWKKA2AKe6zHyB)
+
+### Var.N2
+[![asciicast](https://asciinema.org/a/ARifw1stzY9kx8tDeA6vlqDC9.svg)](https://asciinema.org/a/ARifw1stzY9kx8tDeA6vlqDC9)

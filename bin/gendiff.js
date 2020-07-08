@@ -11,4 +11,4 @@ program
   .parse(process.argv);
 
 const args = process.argv;
-genDiff(args[2], args[3]);
+genDiff(args[2], args[3], program.format);

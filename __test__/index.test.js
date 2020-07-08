@@ -18,7 +18,6 @@ beforeAll(() => {
   secondFileYml = getPath('after.yml');
   firstFileIni = getPath('before.ini');
   secondFileIni = getPath('after.ini');
-  
   result = fs.readFileSync('__fixtures__/result.txt', 'utf8');
 });
 

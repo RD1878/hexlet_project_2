@@ -63,19 +63,18 @@ const res = (obj) => {
   return result;
 };
 
-const difference = (tree, n) => {
+const difference = (tree, spaceCount) => {
   let resultString = '';
-  const spaceString = (n) => '  '.repeat(n);
-   /*let n = 1; */
+  const spaceString = (repeatCount) => '  '.repeat(repeatCount);
   tree.forEach((item) => {
     if (Array.isArray(item.value)) {
-      resultString += `\n${spaceString(n)}${item.type}${item.key}: {${difference(item.value, n + 2)}\n${spaceString(n + 1)}}`;
+      resultString += `\n${spaceString(spaceCount)}${item.type}${item.key}: {${difference(item.value, spaceCount + 2)}\n${spaceString(spaceCount + 1)}}`;
     } else {
       if (_.isObject(item.value)) {
-        resultString += `\n${spaceString(n)}${item.type}${item.key}: {\n${spaceString(n + 1)}${(res(item.value))}\n${spaceString(n + 1)}}`;
+        resultString += `\n${spaceString(spaceCount)}${item.type}${item.key}: {\n${spaceString(spaceCount + 1)}${(res(item.value))}\n${spaceString(spaceCount + 1)}}`;
       }
       if (!Array.isArray(item.value) && !_.isObject(item.value)) {
-        resultString += `\n${spaceString(n)}${item.type}${item.key}: ${item.value}`;
+        resultString += `\n${spaceString(spaceCount)}${item.type}${item.key}: ${item.value}`;
       }
     }
   });

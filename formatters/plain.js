@@ -1,11 +1,11 @@
 import _ from 'lodash';
 
 const isQuotes = (value) => {
-  if (typeof (value) === 'boolean') {
-    const result = value;
+  if (typeof (value) === 'string') {
+    const result = `'${value}'`;
     return result;
   }
-  const result = `'${value}'`;
+  const result = value;
   return result;
 };
 

@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import parser from './parsers.js';
+import formatter from '../formatters/index.js';
 
 const getStructure = (firstObject, secondObject) => {
   const firstFileKeys = Object.keys(firstObject);
@@ -54,40 +55,11 @@ const getStructure = (firstObject, secondObject) => {
   return result;
 };
 
-const res = (obj) => {
-  let result = '';
-  const entries = Object.entries(obj);
-  entries.forEach(([key, value]) => {
-    result += `    ${key}: ${value}`;
-  });
-  return result;
-};
-
-const difference = (tree, spaceCount) => {
-  let resultString = '';
-  const spaceString = (repeatCount) => '  '.repeat(repeatCount);
-  tree.forEach((item) => {
-    if (Array.isArray(item.value)) {
-      resultString += `\n${spaceString(spaceCount)}${item.type}${item.key}: {${difference(item.value, spaceCount + 2)}\n${spaceString(spaceCount + 1)}}`;
-    } else {
-      if (_.isObject(item.value)) {
-        resultString += `\n${spaceString(spaceCount)}${item.type}${item.key}: {\n${spaceString(spaceCount + 1)}${(res(item.value))}\n${spaceString(spaceCount + 1)}}`;
-      }
-      if (!Array.isArray(item.value) && !_.isObject(item.value)) {
-        resultString += `\n${spaceString(spaceCount)}${item.type}${item.key}: ${item.value}`;
-      }
-    }
-  });
-  return resultString;
-};
-
-const getDifference = (pathToFile1, pathToFile2) => {
+const getDifference = (pathToFile1, pathToFile2, format) => {
   const firstFile = parser(pathToFile1);
   const secondFile = parser(pathToFile2);
   const structure = getStructure(firstFile, secondFile);
-  const beginSpaceCount = 1;
-  const diff = difference(structure, beginSpaceCount);
-  const result = `{${diff}\n}`;
+  const result = formatter(structure, format);
   console.log(result);
   return result;
 };

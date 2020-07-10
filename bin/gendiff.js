@@ -11,4 +11,7 @@ program
   .parse(process.argv);
 
 const args = process.argv;
-genDiff(args[2], args[3], program.format);
+const path1 = args[2];
+const path2 = args[3];
+const format = args[5];
+genDiff(path1, path2, format);

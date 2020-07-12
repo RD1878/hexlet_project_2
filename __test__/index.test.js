@@ -10,8 +10,10 @@ let firstFileIni;
 let secondFileIni;
 let resultStylish;
 let resultPlain;
+let resultJson;
 const formatStylish = 'stylish';
 const formatPlain = 'plain';
+const formatJson = 'json';
 const getPath = (filename) => path.join('__fixtures__', filename);
 
 beforeAll(() => {
@@ -23,6 +25,7 @@ beforeAll(() => {
   secondFileIni = getPath('after.ini');
   resultStylish = fs.readFileSync('__fixtures__/resultStylish.txt', 'utf8');
   resultPlain = fs.readFileSync('__fixtures__/resultPlain.txt', 'utf8');
+  resultJson = fs.readFileSync('__fixtures__/resultJson.txt', 'utf8');
 });
 
 test('stylish', () => {
@@ -35,4 +38,10 @@ test('plain', () => {
   expect(genDiff(firstFileJson, secondFileJson, formatPlain)).toBe(resultPlain);
   expect(genDiff(firstFileYml, secondFileYml, formatPlain)).toBe(resultPlain);
   expect(genDiff(firstFileIni, secondFileIni, formatPlain)).toBe(resultPlain);
+});
+
+test('json', () => {
+  expect(genDiff(firstFileJson, secondFileJson, formatJson)).toBe(resultJson);
+  expect(genDiff(firstFileYml, secondFileYml, formatJson)).toBe(resultJson);
+  expect(genDiff(firstFileIni, secondFileIni, formatJson)).toBe(resultJson);
 });

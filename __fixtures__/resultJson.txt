@@ -1,0 +1,110 @@
+[
+  {
+    "key": "common",
+    "value": [
+      {
+        "key": "setting1",
+        "value": "Value 1",
+        "type": "none"
+      },
+      {
+        "key": "setting2",
+        "value": 200,
+        "type": "rm"
+      },
+      {
+        "key": "setting3",
+        "value": true,
+        "type": "rm"
+      },
+      {
+        "key": "setting3",
+        "value": {
+          "key": "value"
+        },
+        "type": "add"
+      },
+      {
+        "key": "setting6",
+        "value": [
+          {
+            "key": "key",
+            "value": "value",
+            "type": "none"
+          },
+          {
+            "key": "ops",
+            "value": "vops",
+            "type": "add"
+          }
+        ],
+        "type": "none"
+      },
+      {
+        "key": "follow",
+        "value": false,
+        "type": "add"
+      },
+      {
+        "key": "setting4",
+        "value": "blah blah",
+        "type": "add"
+      },
+      {
+        "key": "setting5",
+        "value": {
+          "key5": "value5"
+        },
+        "type": "add"
+      }
+    ],
+    "type": "none"
+  },
+  {
+    "key": "group1",
+    "value": [
+      {
+        "key": "baz",
+        "value": "bas",
+        "type": "rm"
+      },
+      {
+        "key": "baz",
+        "value": "bars",
+        "type": "add"
+      },
+      {
+        "key": "foo",
+        "value": "bar",
+        "type": "none"
+      },
+      {
+        "key": "nest",
+        "value": {
+          "key": "value"
+        },
+        "type": "rm"
+      },
+      {
+        "key": "nest",
+        "value": "str",
+        "type": "add"
+      }
+    ],
+    "type": "none"
+  },
+  {
+    "key": "group2",
+    "value": {
+      "abc": 12345
+    },
+    "type": "rm"
+  },
+  {
+    "key": "group3",
+    "value": {
+      "fee": 100500
+    },
+    "type": "add"
+  }
+]

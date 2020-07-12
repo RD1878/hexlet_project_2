@@ -14,6 +14,6 @@ export default (pathToFile) => {
     case '.ini':
       return ini.parse(fileValue);
     default:
-      throw new Error(`Error! ${path.extname(pathToFile)} is incorrect`);
+      throw new Error(`Error! Path to file: ${path.extname(pathToFile)} is incorrect`);
   }
 };

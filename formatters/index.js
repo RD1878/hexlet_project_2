@@ -1,16 +1,18 @@
 import stylishFormat from './stylish.js';
-import plain from './plain.js';
+import plainFormat from './plain.js';
+import jsonFormat from './json.js';
 
 const formatter = (structure, format = 'stylish') => {
-  if (format === 'stylish') {
-    const result = stylishFormat(structure);
-    return `{${result}\n}`;
+  switch (format) {
+    case 'stylish':
+      return `{${stylishFormat(structure)}\n}`;
+    case 'plain':
+      return plainFormat(structure).trim();
+    case 'json':
+      return jsonFormat(structure);
+    default:
+      throw new Error(`Error! Format ${format} is incorrect!`);
   }
-  if (format === 'plain') {
-    const result = plain(structure).trim();
-    return result;
-  }
-  return true;
 };
 
 export default formatter;

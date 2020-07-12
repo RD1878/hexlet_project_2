@@ -31,32 +31,29 @@ const updated = (element1, element2, deep) => {
   return true;
 };
 
-const plainFormat = (tree, deep = '') => {
-  let resultString = '';
-  tree.forEach((item) => {
-    if (Array.isArray(item.value)) {
-      const newDeep = `${deep}${item.key}.`;
-      resultString += `${plainFormat(item.value, newDeep)}`;
-    } else {
-      if (item.type === '- ') {
-        const keyUpd = item.key;
-        const itemUpd = tree.find((el) => el.type === '+ ' && el.key === keyUpd);
-        if (itemUpd) {
-          const itemUpd1 = item;
-          const itemUpd2 = itemUpd;
-          resultString += `${updated(itemUpd1, itemUpd2, deep)}`;
-        } else {
-          resultString += `${remove(item, deep)}`;
-        }
-      }
-      if (item.type === '+ ') {
-        if (!resultString.includes(`Property '${deep}${item.key}' was updated.`)) {
-          resultString += `${add(item, deep)}`;
-        }
-      }
+const plainFormat = (tree, deep = '') => tree.reduce((resultString, item) => {
+  if (Array.isArray(item.value)) {
+    const newDeep = `${deep}${item.key}.`;
+    resultString += `${plainFormat(item.value, newDeep)}`;
+    return resultString;
+  }
+  if (item.type === 'rm') {
+    const keyUpd = item.key;
+    const itemUpd = tree.find((el) => el.type === 'add' && el.key === keyUpd);
+    if (itemUpd) {
+      const itemUpd1 = item;
+      const itemUpd2 = itemUpd;
+      resultString += `${updated(itemUpd1, itemUpd2, deep)}`;
+      return resultString;
     }
-  });
+    resultString += `${remove(item, deep)}`;
+    return resultString;
+  }
+  if (item.type === 'add' && !resultString.includes(`Property '${deep}${item.key}' was updated.`)) {
+    resultString += `${add(item, deep)}`;
+    return resultString;
+  }
   return resultString;
-};
+}, '');
 
 export default plainFormat;

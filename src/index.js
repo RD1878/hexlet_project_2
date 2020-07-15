@@ -2,6 +2,29 @@ import _ from 'lodash';
 import parser from './parsers.js';
 import formatter from '../formatters/index.js';
 
+const numParser = (tree) => {
+  tree.forEach((item) => {
+    if (Array.isArray(item.value)) {
+      numParser(item.value);
+    }
+    if (typeof (item.value) === 'string') {
+      const num = Number(item.value);
+      item.value = isNaN(num) ? item.value : num;
+    }
+    if (_.isObject(item.value)) {
+      const object = item.value;
+      const entries = Object.entries(object);
+      entries.forEach(([key, val]) => {
+        if (typeof (val) === 'string') {
+          const num = Number(val);
+          object[key] = isNaN(num) ? object[key] : num;
+        }
+      });
+    }
+  });
+  return tree;
+};
+
 const getStructure = (firstObject, secondObject) => {
   if (!_.isObject(firstObject) || !_.isObject(secondObject)) {
     throw new Error('One or both files are incorrect');
@@ -63,7 +86,8 @@ const getDifference = (pathToFile1, pathToFile2, format) => {
   const firstFile = parser(pathToFile1);
   const secondFile = parser(pathToFile2);
   const structure = getStructure(firstFile, secondFile);
-  const result = formatter(structure, format);
+  const newStr = numParser(structure);
+  const result = formatter(newStr, format);
   console.log(result);
   return result;
 };

@@ -34,8 +34,7 @@ const updated = (element1, element2, deep) => {
 const plainFormat = (tree, deep = '') => tree.reduce((resultString, item) => {
   if (Array.isArray(item.value)) {
     const newDeep = `${deep}${item.key}.`;
-    resultString += `${plainFormat(item.value, newDeep)}`;
-    return resultString;
+    return `${resultString}${plainFormat(item.value, newDeep)}`;
   }
   if (item.type === 'rm') {
     const keyUpd = item.key;
@@ -43,15 +42,12 @@ const plainFormat = (tree, deep = '') => tree.reduce((resultString, item) => {
     if (itemUpd) {
       const itemUpd1 = item;
       const itemUpd2 = itemUpd;
-      resultString += `${updated(itemUpd1, itemUpd2, deep)}`;
-      return resultString;
+      return `${resultString}${updated(itemUpd1, itemUpd2, deep)}`;
     }
-    resultString += `${remove(item, deep)}`;
-    return resultString;
+    return `${resultString}${remove(item, deep)}`;
   }
   if (item.type === 'add' && !resultString.includes(`Property '${deep}${item.key}' was updated.`)) {
-    resultString += `${add(item, deep)}`;
-    return resultString;
+    return `${resultString}${add(item, deep)}`;
   }
   return resultString;
 }, '');

@@ -8,10 +8,8 @@ program
   .version('1.0.0')
   .description('Compares two configuration files and shows a difference.')
   .option('-f, --format [type]', 'output format', 'stylish')
+  .arguments('<pathToFile1> <pathToFile2>')
+  .action(() => {
+    console.log(genDiff(program.args[0], program.args[1], program.format));
+  })
   .parse(process.argv);
-
-const args = process.argv;
-const path1 = args[2];
-const path2 = args[3];
-const format = args[5];
-genDiff(path1, path2, format);

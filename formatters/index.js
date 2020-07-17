@@ -2,7 +2,7 @@ import stylishFormat from './stylish.js';
 import plainFormat from './plain.js';
 import jsonFormat from './json.js';
 
-const formatter = (structure, format = 'stylish') => {
+export default (structure, format = 'stylish') => {
   switch (format) {
     case 'stylish':
       return `{${stylishFormat(structure)}\n}`;
@@ -14,5 +14,3 @@ const formatter = (structure, format = 'stylish') => {
       throw new Error(`Error! Format ${format} is incorrect!`);
   }
 };
-
-export default formatter;

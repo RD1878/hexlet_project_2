@@ -2,37 +2,17 @@ import yaml from 'js-yaml';
 import ini from 'ini';
 import _ from 'lodash';
 
-const getConvertedValue = (stringValue) => {
-  const number = Number(stringValue);
-  return _.isNaN(number) ? stringValue : number;
-};
+const getConvertedValue = (stringValue) => Number(stringValue);
 
-/* const runNumbersIniParser = (object) => {
-  const parsingObject = object;
-  const entries = Object.entries(parsingObject);
-  entries.forEach(([key, value]) => {
-    if (_.isObject(value)) {
-      runNumbersIniParser(value);
-    }
-    if (typeof (value) === 'string') {
-      parsingObject[key] = getConvertedValue(value);
-    }
-  });
-  return parsingObject;
-}; */
-
-const runNumbersIniParser = (object) => {
-  const parsingObject = object;
-  _.mapValues(parsingObject, (key, value) => {
-    if (_.isObject(value)) {
-      runNumbersIniParser(value);
-    }
-    if (typeof (value) === 'string') {
-      parsingObject[key] = getConvertedValue(value);
-    }
-  });
-  return parsingObject;
-};
+const runNumbersIniParser = (object) => _.mapValues(object, (value) => {
+  if (_.isObject(value)) {
+    return runNumbersIniParser(value);
+  }
+  if (!_.isNaN(Number(value)) && typeof (value) !== 'boolean') {
+    return getConvertedValue(value);
+  }
+  return value;
+});
 
 export default ({ fileFormat, fileValue }) => {
   switch (fileFormat) {

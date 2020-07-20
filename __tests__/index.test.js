@@ -25,17 +25,13 @@ beforeAll(() => {
 });
 
 test.each([
-  [formatStylish, resultStylish],
-  [formatPlain, resultPlain],
-  [formatJson, resultJson],
-])('difference(%#)', (format, expected) => {
-  const firstFileJson = getPath(`${fileName1}${formatFileJson}`);
-  const secondFileJson = getPath(`${fileName2}${formatFileJson}`);
-  expect(genDiff(firstFileJson, secondFileJson, format)).toBe(expected);
-  const firstFileYaml = getPath(`${fileName1}${formatFileYaml}`);
-  const secondFileYaml = getPath(`${fileName2}${formatFileYaml}`);
-  expect(genDiff(firstFileYaml, secondFileYaml, format)).toBe(expected);
-  const firstFileIni = getPath(`${fileName1}${formatFileIni}`);
-  const secondFileIni = getPath(`${fileName2}${formatFileYaml}`);
-  expect(genDiff(firstFileIni, secondFileIni, format)).toBe(expected);
+  [formatFileJson],
+  [formatFileYaml],
+  [formatFileIni],
+])('difference(%#)', (formatFile) => {
+  const firstFile = getPath(`${fileName1}${formatFile}`);
+  const secondFile = getPath(`${fileName2}${formatFile}`);
+  expect(genDiff(firstFile, secondFile, formatStylish)).toBe(resultStylish);
+  expect(genDiff(firstFile, secondFile, formatPlain)).toBe(resultPlain);
+  expect(genDiff(firstFile, secondFile, formatJson)).toBe(resultJson);
 });

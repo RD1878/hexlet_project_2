@@ -4,30 +4,39 @@ const getSymbol = (type) => {
   if (type === 'add') {
     return '+ ';
   }
-  if (type === 'rm') {
+  if (type === 'removed') {
     return '- ';
   }
-  if (type === 'none') {
+  if (type === 'unchanged' || type === 'nested') {
     return '  ';
+  }
+  if (type === 'changed') {
+    return {
+      old: getSymbol('removed'),
+      new: getSymbol('add'),
+    };
   }
   return true;
 };
 
 const stylishFormat = (tree, spaceCount = 1) => {
-  const objectEntries = (object) => {
-    const entries = Object.entries(object);
-    return entries.reduce((acc, [key, value]) => `${acc}    ${key}: ${value}`, '');
-  };
   const spaceString = (repeatCount) => '  '.repeat(repeatCount);
+  const getValueItem = (data) => {
+    if (_.isObject(data)) {
+      const entries = Object.entries(data);
+      return entries.reduce((acc, [key, value]) => `{\n${spaceString(spaceCount + 1)}${acc}    ${key}: ${value}\n${spaceString(spaceCount + 1)}}`, '');
+    }
+    return data;
+  };
   return tree.reduce((resultString, item) => {
-    if (Array.isArray(item.value)) {
-      return `${resultString}\n${spaceString(spaceCount)}${getSymbol(item.type)}${item.key}: {${stylishFormat(item.value, spaceCount + 2)}\n${spaceString(spaceCount + 1)}}`;
+    if (item.type === 'nested') {
+      return `${resultString}\n${spaceString(spaceCount)}${getSymbol(item.type)}${item.key}: {${stylishFormat(item.children, spaceCount + 2)}\n${spaceString(spaceCount + 1)}}`;
     }
-    if (_.isObject(item.value)) {
-      return `${resultString}\n${spaceString(spaceCount)}${getSymbol(item.type)}${item.key}: {\n${spaceString(spaceCount + 1)}${(objectEntries(item.value))}\n${spaceString(spaceCount + 1)}}`;
+    if (item.type === 'changed') {
+      return `${resultString}\n${spaceString(spaceCount)}${(getSymbol(item.type).old)}${item.key}: ${getValueItem(item.oldValue)}\n${spaceString(spaceCount)}${(getSymbol(item.type).new)}${item.key}: ${getValueItem(item.newValue)}`;
     }
-    if (!Array.isArray(item.value) && !_.isObject(item.value)) {
-      return `${resultString}\n${spaceString(spaceCount)}${getSymbol(item.type)}${item.key}: ${item.value}`;
+    if (item.type === 'add' || item.type === 'removed' || item.type === 'unchanged') {
+      return `${resultString}\n${spaceString(spaceCount)}${getSymbol(item.type)}${item.key}: ${getValueItem(item.value)}`;
     }
     return true;
   }, '');

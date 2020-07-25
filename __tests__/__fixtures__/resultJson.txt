@@ -1,36 +1,32 @@
 [
   {
     "key": "common",
-    "value": [
+    "children": [
       {
         "key": "setting1",
         "value": "Value 1",
-        "type": "none"
+        "type": "unchanged"
       },
       {
         "key": "setting2",
         "value": 200,
-        "type": "rm"
+        "type": "removed"
       },
       {
         "key": "setting3",
-        "value": true,
-        "type": "rm"
-      },
-      {
-        "key": "setting3",
-        "value": {
+        "oldValue": true,
+        "newValue": {
           "key": "value"
         },
-        "type": "add"
+        "type": "changed"
       },
       {
         "key": "setting6",
-        "value": [
+        "children": [
           {
             "key": "key",
             "value": "value",
-            "type": "none"
+            "type": "unchanged"
           },
           {
             "key": "ops",
@@ -38,7 +34,7 @@
             "type": "add"
           }
         ],
-        "type": "none"
+        "type": "nested"
       },
       {
         "key": "follow",
@@ -58,47 +54,39 @@
         "type": "add"
       }
     ],
-    "type": "none"
+    "type": "nested"
   },
   {
     "key": "group1",
-    "value": [
+    "children": [
       {
         "key": "baz",
-        "value": "bas",
-        "type": "rm"
-      },
-      {
-        "key": "baz",
-        "value": "bars",
-        "type": "add"
+        "oldValue": "bas",
+        "newValue": "bars",
+        "type": "changed"
       },
       {
         "key": "foo",
         "value": "bar",
-        "type": "none"
+        "type": "unchanged"
       },
       {
         "key": "nest",
-        "value": {
+        "oldValue": {
           "key": "value"
         },
-        "type": "rm"
-      },
-      {
-        "key": "nest",
-        "value": "str",
-        "type": "add"
+        "newValue": "str",
+        "type": "changed"
       }
     ],
-    "type": "none"
+    "type": "nested"
   },
   {
     "key": "group2",
     "value": {
       "abc": 12345
     },
-    "type": "rm"
+    "type": "removed"
   },
   {
     "key": "group3",

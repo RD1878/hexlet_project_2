@@ -2,27 +2,28 @@ import yaml from 'js-yaml';
 import ini from 'ini';
 import _ from 'lodash';
 
-const getConvertedValue = (stringValue) => Number(stringValue);
-
-const runNumbersIniParser = (object) => _.mapValues(object, (value) => {
+const isNumericValue = (value) => !_.isNaN(parseFloat(value));
+const parseIniCustom = (data) => ini.parse(data);
+const normalizeParsedObject = (object) => _.mapValues(object, (value) => {
   if (_.isObject(value)) {
-    return runNumbersIniParser(value);
+    return normalizeParsedObject(value);
   }
-  if (!_.isNaN(Number(value)) && typeof (value) !== 'boolean') {
-    return getConvertedValue(value);
+  if (isNumericValue(value)) {
+    return Number(value);
   }
   return value;
 });
 
-export default ({ fileFormat, fileValue }) => {
-  switch (fileFormat) {
-    case '.json':
-      return JSON.parse(fileValue);
-    case '.yml':
-      return yaml.safeLoad(fileValue);
-    case '.ini':
-      return runNumbersIniParser(ini.parse(fileValue));
-    default:
-      throw new Error(`Error! Path to file: ${fileFormat} is incorrect`);
+export default ({ data, formatName }) => {
+  if (formatName === 'json') {
+    return JSON.parse(data);
   }
+  if (formatName === 'yml') {
+    return yaml.safeLoad(data);
+  }
+  if (formatName === 'ini') {
+    const parsedIni = parseIniCustom(data);
+    return normalizeParsedObject(parsedIni);
+  }
+  return false;
 };

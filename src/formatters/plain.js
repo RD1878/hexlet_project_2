@@ -5,15 +5,14 @@ const makeQuotes = (value) => {
     const result = `'${value}'`;
     return result;
   }
-  const result = value;
-  return result;
+  return value;
 };
 
 const add = (element, deep) => {
-  if (_.isObject(element.value)) {
+  if (_.isObject(element.newValue)) {
     return `\nProperty '${deep}${element.key}' was added with value: [complex value]`;
   }
-  return `\nProperty '${deep}${element.key}' was added with value: ${makeQuotes(element.value)}`;
+  return `\nProperty '${deep}${element.key}' was added with value: ${makeQuotes(element.newValue)}`;
 };
 
 const remove = (element, deep) => `\nProperty '${deep}${element.key}' was removed`;

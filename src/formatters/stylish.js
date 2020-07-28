@@ -35,7 +35,13 @@ const stylishFormat = (tree, spaceCount = 1) => {
     if (item.type === 'changed') {
       return `${resultString}\n${spaceString(spaceCount)}${(getSymbol(item.type).old)}${item.key}: ${getValueItem(item.oldValue)}\n${spaceString(spaceCount)}${(getSymbol(item.type).new)}${item.key}: ${getValueItem(item.newValue)}`;
     }
-    if (item.type === 'add' || item.type === 'removed' || item.type === 'unchanged') {
+    if (item.type === 'add') {
+      return `${resultString}\n${spaceString(spaceCount)}${getSymbol(item.type)}${item.key}: ${getValueItem(item.newValue)}`;
+    }
+    if (item.type === 'removed') {
+      return `${resultString}\n${spaceString(spaceCount)}${getSymbol(item.type)}${item.key}: ${getValueItem(item.oldValue)}`;
+    }
+    if (item.type === 'unchanged') {
       return `${resultString}\n${spaceString(spaceCount)}${getSymbol(item.type)}${item.key}: ${getValueItem(item.value)}`;
     }
     return true;

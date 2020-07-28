@@ -9,7 +9,7 @@
       },
       {
         "key": "setting2",
-        "value": 200,
+        "oldValue": 200,
         "type": "removed"
       },
       {
@@ -30,7 +30,7 @@
           },
           {
             "key": "ops",
-            "value": "vops",
+            "newValue": "vops",
             "type": "add"
           }
         ],
@@ -38,17 +38,17 @@
       },
       {
         "key": "follow",
-        "value": false,
+        "newValue": false,
         "type": "add"
       },
       {
         "key": "setting4",
-        "value": "blah blah",
+        "newValue": "blah blah",
         "type": "add"
       },
       {
         "key": "setting5",
-        "value": {
+        "newValue": {
           "key5": "value5"
         },
         "type": "add"
@@ -83,14 +83,14 @@
   },
   {
     "key": "group2",
-    "value": {
+    "oldValue": {
       "abc": 12345
     },
     "type": "removed"
   },
   {
     "key": "group3",
-    "value": {
+    "newValue": {
       "fee": 100500
     },
     "type": "add"

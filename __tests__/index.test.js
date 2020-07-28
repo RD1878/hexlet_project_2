@@ -2,28 +2,26 @@ import path from 'path';
 import fs from 'fs';
 import genDiff from '../src/index.js';
 
-const fileFormats = ['json', 'yml', 'ini'];
+const inputFormats = ['json', 'yml', 'ini'];
 
 const getPath = (filename) => path.join('__tests__/__fixtures__', filename);
 
-const result = {
-  stylish: '',
-  plain: '',
-  json: '',
-};
+let expectedResult;
 
 beforeAll(() => {
-  result.stylish = fs.readFileSync('__tests__/__fixtures__/resultStylish.txt', 'utf8');
-  result.plain = fs.readFileSync('__tests__/__fixtures__/resultPlain.txt', 'utf8');
-  result.json = fs.readFileSync('__tests__/__fixtures__/resultJson.txt', 'utf8');
+  expectedResult = {
+    stylish: fs.readFileSync('__tests__/__fixtures__/resultStylish.txt', 'utf8'),
+    plain: fs.readFileSync('__tests__/__fixtures__/resultPlain.txt', 'utf8'),
+    json: fs.readFileSync('__tests__/__fixtures__/resultJson.txt', 'utf8'),
+  };
 });
 
-test.each([
-  ...fileFormats,
-])('gendiff for "%s" input format', (fileFormat) => {
-  const firstFile = getPath(`file1.${fileFormat}`);
-  const secondFile = getPath(`file2.${fileFormat}`);
-  expect(genDiff(firstFile, secondFile, 'stylish')).toBe(result.stylish);
-  expect(genDiff(firstFile, secondFile, 'plain')).toBe(result.plain);
-  expect(genDiff(firstFile, secondFile, 'json')).toBe(result.json);
+test.each(
+  inputFormats,
+)('gendiff for "%s" input format', (fileFormat) => {
+  const pathToFile1 = getPath(`file1.${fileFormat}`);
+  const pathToFile2 = getPath(`file2.${fileFormat}`);
+  expect(genDiff(pathToFile1, pathToFile2, 'stylish')).toBe(expectedResult.stylish);
+  expect(genDiff(pathToFile1, pathToFile2, 'plain')).toBe(expectedResult.plain);
+  expect(genDiff(pathToFile1, pathToFile2, 'json')).toBe(expectedResult.json);
 });

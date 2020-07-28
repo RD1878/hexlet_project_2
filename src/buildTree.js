@@ -1,26 +1,26 @@
 import _ from 'lodash';
 
-const getTree = (firstObject, secondObject) => {
+const buildTree = (firstObject, secondObject) => {
   const uniqKeys = _.union(_.keys(firstObject), _.keys(secondObject));
   return uniqKeys.map((key) => {
     if (_.isObject(firstObject[key]) && _.isObject(secondObject[key])) {
       return {
         key,
-        children: getTree(firstObject[key], secondObject[key]),
+        children: buildTree(firstObject[key], secondObject[key]),
         type: 'nested',
       };
     }
     if (_.has(firstObject, key) && !_.has(secondObject, key)) {
       return {
         key,
-        value: firstObject[key],
+        oldValue: firstObject[key],
         type: 'removed',
       };
     }
     if (!_.has(firstObject, key) && _.has(secondObject, key)) {
       return {
         key,
-        value: secondObject[key],
+        newValue: secondObject[key],
         type: 'add',
       };
     }
@@ -31,16 +31,13 @@ const getTree = (firstObject, secondObject) => {
         type: 'unchanged',
       };
     }
-    if (!_.isObject(firstObject[key]) || !_.isObject(secondObject[key])) {
-      return {
-        key,
-        oldValue: firstObject[key],
-        newValue: secondObject[key],
-        type: 'changed',
-      };
-    }
-    return true;
+    return {
+      key,
+      oldValue: firstObject[key],
+      newValue: secondObject[key],
+      type: 'changed',
+    };
   });
 };
 
-export default getTree;
+export default buildTree;

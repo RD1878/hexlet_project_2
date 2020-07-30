@@ -24,18 +24,18 @@ const buildTree = (firstObject, secondObject) => {
         type: 'add',
       };
     }
-    if (firstObject[key] === secondObject[key]) {
+    if (firstObject[key] !== secondObject[key]) {
       return {
         key,
-        value: firstObject[key],
-        type: 'unchanged',
+        oldValue: firstObject[key],
+        newValue: secondObject[key],
+        type: 'changed',
       };
     }
     return {
       key,
-      oldValue: firstObject[key],
-      newValue: secondObject[key],
-      type: 'changed',
+      value: firstObject[key],
+      type: 'unchanged',
     };
   });
 };

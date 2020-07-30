@@ -11,8 +11,8 @@ const getDataAndFormatNameFromFile = (pathToFile) => {
 };
 
 export default (pathToFile1, pathToFile2, format) => {
-  const parsedPathToFile1 = parse(getDataAndFormatNameFromFile(pathToFile1));
-  const parsedPathToFile2 = parse(getDataAndFormatNameFromFile(pathToFile2));
-  const tree = buildTree(parsedPathToFile1, parsedPathToFile2);
+  const parsedObject1 = parse(getDataAndFormatNameFromFile(pathToFile1));
+  const parsedObject2 = parse(getDataAndFormatNameFromFile(pathToFile2));
+  const tree = buildTree(parsedObject1, parsedObject2);
   return render(tree, format);
 };

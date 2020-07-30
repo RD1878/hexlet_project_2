@@ -10,16 +10,13 @@ const getSymbol = (type) => {
   if (type === 'unchanged' || type === 'nested') {
     return '  ';
   }
-  if (type === 'changed') {
-    return {
-      old: getSymbol('removed'),
-      new: getSymbol('add'),
-    };
-  }
-  return true;
+  return {
+    old: getSymbol('removed'),
+    new: getSymbol('add'),
+  };
 };
 
-const stylishFormat = (tree, spaceCount = 1) => {
+const makeStylish = (tree, spaceCount = 1) => {
   const spaceString = (repeatCount) => '  '.repeat(repeatCount);
   const getValueItem = (data) => {
     if (_.isObject(data)) {
@@ -30,7 +27,7 @@ const stylishFormat = (tree, spaceCount = 1) => {
   };
   return tree.reduce((resultString, item) => {
     if (item.type === 'nested') {
-      return `${resultString}\n${spaceString(spaceCount)}${getSymbol(item.type)}${item.key}: {${stylishFormat(item.children, spaceCount + 2)}\n${spaceString(spaceCount + 1)}}`;
+      return `${resultString}\n${spaceString(spaceCount)}${getSymbol(item.type)}${item.key}: {${makeStylish(item.children, spaceCount + 2)}\n${spaceString(spaceCount + 1)}}`;
     }
     if (item.type === 'changed') {
       return `${resultString}\n${spaceString(spaceCount)}${(getSymbol(item.type).old)}${item.key}: ${getValueItem(item.oldValue)}\n${spaceString(spaceCount)}${(getSymbol(item.type).new)}${item.key}: ${getValueItem(item.newValue)}`;
@@ -41,11 +38,8 @@ const stylishFormat = (tree, spaceCount = 1) => {
     if (item.type === 'removed') {
       return `${resultString}\n${spaceString(spaceCount)}${getSymbol(item.type)}${item.key}: ${getValueItem(item.oldValue)}`;
     }
-    if (item.type === 'unchanged') {
-      return `${resultString}\n${spaceString(spaceCount)}${getSymbol(item.type)}${item.key}: ${getValueItem(item.value)}`;
-    }
-    return true;
+    return `${resultString}\n${spaceString(spaceCount)}${getSymbol(item.type)}${item.key}: ${getValueItem(item.value)}`;
   }, '');
 };
 
-export default stylishFormat;
+export default makeStylish;

@@ -25,9 +25,9 @@ const makeStylish = (tree, spaceCount = 1) => {
     }
     return data;
   };
-  return tree.reduce((resultString, item) => {
+  const result = tree.reduce((resultString, item) => {
     if (item.type === 'nested') {
-      return `${resultString}\n${spaceString(spaceCount)}${getSymbol(item.type)}${item.key}: {${makeStylish(item.children, spaceCount + 2)}\n${spaceString(spaceCount + 1)}}`;
+      return `${resultString}\n${spaceString(spaceCount)}${getSymbol(item.type)}${item.key}: ${makeStylish(item.children, spaceCount + 2)}`;
     }
     if (item.type === 'changed') {
       return `${resultString}\n${spaceString(spaceCount)}${(getSymbol(item.type).old)}${item.key}: ${getValueItem(item.oldValue)}\n${spaceString(spaceCount)}${(getSymbol(item.type).new)}${item.key}: ${getValueItem(item.newValue)}`;
@@ -40,6 +40,7 @@ const makeStylish = (tree, spaceCount = 1) => {
     }
     return `${resultString}\n${spaceString(spaceCount)}${getSymbol(item.type)}${item.key}: ${getValueItem(item.value)}`;
   }, '');
+  return `{${result}\n${spaceString(spaceCount - 1)}}`;
 };
 
 export default makeStylish;

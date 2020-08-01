@@ -1,15 +1,15 @@
-import stylishFormat from './stylish.js';
-import plainFormat from './plain.js';
-import jsonFormat from './json.js';
+import makeStylish from './stylish.js';
+import makePlain from './plain.js';
+import makeJson from './json.js';
 
 export default (tree, format = 'stylish') => {
   switch (format) {
     case 'stylish':
-      return stylishFormat(tree);
+      return makeStylish(tree);
     case 'plain':
-      return plainFormat(tree);
+      return makePlain(tree);
     case 'json':
-      return jsonFormat(tree);
+      return makeJson(tree);
     default:
       throw new Error(`Error! Output format ${format} is incorrect!`);
   }

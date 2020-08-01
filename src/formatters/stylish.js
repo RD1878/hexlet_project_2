@@ -25,22 +25,21 @@ const makeStylish = (tree, spaceCount = 1) => {
     }
     return data;
   };
-  const result = tree.reduce((resultString, item) => {
-    if (item.type === 'nested') {
-      return `${resultString}\n${spaceString(spaceCount)}${getSymbol(item.type)}${item.key}: ${makeStylish(item.children, spaceCount + 2)}`;
+  const result = tree.map((item) => {
+    switch (item.type) {
+      case 'nested':
+        return `${spaceString(spaceCount)}${getSymbol(item.type)}${item.key}: ${makeStylish(item.children, spaceCount + 2)}`;
+      case 'removed':
+        return `${spaceString(spaceCount)}${getSymbol(item.type)}${item.key}: ${getValueItem(item.oldValue)}`;
+      case 'add':
+        return `${spaceString(spaceCount)}${getSymbol(item.type)}${item.key}: ${getValueItem(item.newValue)}`;
+      case 'changed':
+        return `${spaceString(spaceCount)}${(getSymbol(item.type).old)}${item.key}: ${getValueItem(item.oldValue)}\n${spaceString(spaceCount)}${(getSymbol(item.type).new)}${item.key}: ${getValueItem(item.newValue)}`;
+      default:
+        return `${spaceString(spaceCount)}${getSymbol(item.type)}${item.key}: ${getValueItem(item.value)}`;
     }
-    if (item.type === 'changed') {
-      return `${resultString}\n${spaceString(spaceCount)}${(getSymbol(item.type).old)}${item.key}: ${getValueItem(item.oldValue)}\n${spaceString(spaceCount)}${(getSymbol(item.type).new)}${item.key}: ${getValueItem(item.newValue)}`;
-    }
-    if (item.type === 'add') {
-      return `${resultString}\n${spaceString(spaceCount)}${getSymbol(item.type)}${item.key}: ${getValueItem(item.newValue)}`;
-    }
-    if (item.type === 'removed') {
-      return `${resultString}\n${spaceString(spaceCount)}${getSymbol(item.type)}${item.key}: ${getValueItem(item.oldValue)}`;
-    }
-    return `${resultString}\n${spaceString(spaceCount)}${getSymbol(item.type)}${item.key}: ${getValueItem(item.value)}`;
-  }, '');
-  return `{${result}\n${spaceString(spaceCount - 1)}}`;
+  }).join('\n');
+  return `{\n${result}\n${spaceString(spaceCount - 1)}}`;
 };
 
 export default makeStylish;

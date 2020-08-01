@@ -12,12 +12,12 @@ const add = (element, deep) => `Property '${deep}${element.key}' was added with 
 const remove = (element, deep) => `Property '${deep}${element.key}' was removed`;
 const update = (element, deep) => `Property '${deep}${element.key}' was updated. From ${makeQuotes(element.oldValue)} to ${makeQuotes(element.newValue)}`;
 
-const plainFormat = (tree, deep = '') => {
+const makePlain = (tree, deep = '') => {
   const result = tree
     .map((item) => {
       switch (item.type) {
         case 'nested':
-          return plainFormat(item.children, `${deep}${item.key}.`);
+          return makePlain(item.children, `${deep}${item.key}.`);
         case 'removed':
           return remove(item, deep);
         case 'add':
@@ -33,4 +33,4 @@ const plainFormat = (tree, deep = '') => {
   return result;
 };
 
-export default plainFormat;
+export default makePlain;

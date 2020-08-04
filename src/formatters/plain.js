@@ -1,4 +1,4 @@
-const makeQuotes = (value) => {
+const getFormattedValue = (value) => {
   if (typeof (value) === 'string') {
     return `'${value}'`;
   }
@@ -8,29 +8,31 @@ const makeQuotes = (value) => {
   return value;
 };
 
-const add = (element, deep) => `Property '${deep}${element.key}' was added with value: ${makeQuotes(element.newValue)}`;
-const remove = (element, deep) => `Property '${deep}${element.key}' was removed`;
-const update = (element, deep) => `Property '${deep}${element.key}' was updated. From ${makeQuotes(element.oldValue)} to ${makeQuotes(element.newValue)}`;
+const getPropertyName = (paths, key) => [...paths, key].join('.');
 
-const makePlain = (tree, deep = '') => {
-  const result = tree
-    .map((item) => {
-      switch (item.type) {
-        case 'nested':
-          return makePlain(item.children, `${deep}${item.key}.`);
-        case 'removed':
-          return remove(item, deep);
-        case 'add':
-          return add(item, deep);
-        case 'changed':
-          return update(item, deep);
-        default:
-          return null;
-      }
-    })
-    .filter((item) => item !== null)
-    .join('\n');
-  return result;
+const makePlain = (tree) => {
+  const renderResult = (nodes, paths) => {
+    const result = nodes
+      .flatMap((item) => {
+        switch (item.type) {
+          case 'nested':
+            return renderResult(item.children, [...paths, item.key]);
+          case 'removed':
+            return `Property '${getPropertyName(paths, item.key)}' was removed`;
+          case 'add':
+            return `Property '${getPropertyName(paths, item.key)}' was added with value: ${getFormattedValue(item.newValue)}`;
+          case 'changed':
+            return `Property '${getPropertyName(paths, item.key)}' was updated. From ${getFormattedValue(item.oldValue)} to ${getFormattedValue(item.newValue)}`;
+          case 'unchanged':
+            return [];
+          default:
+            throw new Error(`Error! Item type ${item.type} is incorrect!`);
+        }
+      })
+      .join('\n');
+    return result;
+  };
+  return renderResult(tree, []);
 };
 
 export default makePlain;

@@ -29,5 +29,5 @@ export default ({ data, formatName }) => {
   if (_.has(parsers, formatName)) {
     return parsers[formatName](data);
   }
-  throw new Error(`Error! Input formatname of file ${formatName} is incorrect!`);
+  throw new Error(`Error! Input format of file ${formatName} is incorrect!`);
 };

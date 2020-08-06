@@ -2,10 +2,10 @@ import _ from 'lodash';
 
 const getSpaces = (repeatCount) => '  '.repeat(repeatCount);
 
-const getValueItem = (data, spaceCount) => {
+const getFormattedValue = (data, spaceCount) => {
   if (_.isObject(data)) {
     const entries = Object.entries(data);
-    return entries.reduce((acc, [key, value]) => `{\n${getSpaces(spaceCount + 1)}${acc}    ${key}: ${getValueItem(value)}\n${getSpaces(spaceCount + 1)}}`, '');
+    return entries.map(([key, value]) => `{\n${getSpaces(spaceCount + 1)}    ${key}: ${getFormattedValue(value)}\n${getSpaces(spaceCount + 1)}}`);
   }
   return data;
 };
@@ -17,16 +17,16 @@ const makeStylish = (tree) => {
         case 'nested':
           return `${getSpaces(spaceCount)}  ${item.key}: ${renderResult(item.children, spaceCount + 2)}`;
         case 'removed':
-          return `${getSpaces(spaceCount)}- ${item.key}: ${getValueItem(item.oldValue, spaceCount)}`;
+          return `${getSpaces(spaceCount)}- ${item.key}: ${getFormattedValue(item.oldValue, spaceCount)}`;
         case 'add':
-          return `${getSpaces(spaceCount)}+ ${item.key}: ${getValueItem(item.newValue, spaceCount)}`;
+          return `${getSpaces(spaceCount)}+ ${item.key}: ${getFormattedValue(item.newValue, spaceCount)}`;
         case 'changed':
           return [
-            `${getSpaces(spaceCount)}- ${item.key}: ${getValueItem(item.oldValue, spaceCount)}`,
-            `${getSpaces(spaceCount)}+ ${item.key}: ${getValueItem(item.newValue, spaceCount)}`,
+            `${getSpaces(spaceCount)}- ${item.key}: ${getFormattedValue(item.oldValue, spaceCount)}`,
+            `${getSpaces(spaceCount)}+ ${item.key}: ${getFormattedValue(item.newValue, spaceCount)}`,
           ];
         case 'unchanged':
-          return `${getSpaces(spaceCount)}  ${item.key}: ${getValueItem(item.value)}`;
+          return `${getSpaces(spaceCount)}  ${item.key}: ${getFormattedValue(item.value, spaceCount)}`;
         default:
           throw new Error(`Error! Item type ${item.type} is incorrect!`);
       }

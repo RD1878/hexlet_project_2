@@ -25,9 +25,9 @@ const parsers = {
   ini: parseIniCustom,
 };
 
-export default ({ data, formatName }) => {
+export default (data, formatName) => {
   if (_.has(parsers, formatName)) {
     return parsers[formatName](data);
   }
-  throw new Error(`Error! Input format of file ${formatName} is incorrect!`);
+  throw new Error(`Error! Input format ${formatName} is incorrect!`);
 };

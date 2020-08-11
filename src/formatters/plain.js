@@ -1,11 +1,12 @@
 const getFormattedValue = (value) => {
-  if (typeof (value) === 'string') {
-    return `'${value}'`;
+  switch (typeof (value)) {
+    case 'string':
+      return `'${value}'`;
+    case 'object':
+      return '[complex value]';
+    default:
+      return value;
   }
-  if (typeof (value) === 'object') {
-    return '[complex value]';
-  }
-  return value;
 };
 
 const getPropertyName = (paths, key) => [...paths, key].join('.');
